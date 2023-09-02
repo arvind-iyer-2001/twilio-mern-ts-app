@@ -3,15 +3,16 @@ import bodyParser from 'body-parser';
 import morgan from 'morgan'
 import { generateTwilioToken } from './tokens';
 import cors from 'cors';
-import { Identity } from './types/Identity.types';
+import dotenv from 'dotenv';
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-  
 app.use(morgan('dev'));
-
 app.use(cors());
+dotenv.config();
+
+const PORT = process.env.PORT || 3001
 
 app.get('/api/greeting', (req, res) => {
     const name = req.query.name || 'World';
@@ -50,6 +51,6 @@ app.post('/video/token', (req, res) => {
     );    
 });
 
-app.listen(3001, () =>
-  console.log('Express server is running on localhost:3001')
+app.listen(PORT, () =>
+  console.log(`Express server is running on localhost:${PORT}`)
 );
