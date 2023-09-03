@@ -8,15 +8,18 @@ var body_parser_1 = __importDefault(require("body-parser"));
 var morgan_1 = __importDefault(require("morgan"));
 var tokens_1 = require("./tokens");
 var cors_1 = __importDefault(require("cors"));
+var dotenv_1 = __importDefault(require("dotenv"));
 var app = (0, express_1.default)();
 app.use(body_parser_1.default.urlencoded({ extended: false }));
 app.use(body_parser_1.default.json());
 app.use((0, morgan_1.default)('dev'));
 app.use((0, cors_1.default)());
+dotenv_1.default.config();
+var PORT = process.env.PORT || 3001;
 app.get('/api/greeting', function (req, res) {
     var name = req.query.name || 'World';
     res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify({ greeting: "Hello ".concat(name, "!") }));
+    res.status(200).send(JSON.stringify({ greeting: "Hello ".concat(name, "!") }));
 });
 app.get('/video/token', function (req, res) {
     console.log('token requested');
@@ -43,6 +46,6 @@ app.post('/video/token', function (req, res) {
         token: token
     }));
 });
-app.listen(3001, function () {
-    return console.log('Express server is running on localhost:3001');
+app.listen(PORT, function () {
+    return console.log("Express server is running on localhost:".concat(PORT));
 });
