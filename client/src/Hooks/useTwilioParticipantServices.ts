@@ -6,8 +6,8 @@ const useTwilioParticipantServices = (participant: Participant) => {
     const [videoTracks, setVideoTracks] = useState<VideoTrack[]>([]);
     const [audioTracks, setAudioTracks] = useState<AudioTrack[]>([]);
 
-    const videoRef = useRef<HTMLVideoElement>();
-    const audioRef = useRef<HTMLAudioElement>();
+    const videoRef = useRef<HTMLVideoElement>(null);
+    const audioRef = useRef<HTMLAudioElement>(null);
 
     const tracksFromPublications = (trackMap: Map<string, VideoTrackPublication | AudioTrackPublication>) => {
         return Array.from(trackMap.values())
@@ -55,7 +55,7 @@ const useTwilioParticipantServices = (participant: Participant) => {
     // Attach Video Tracks to VideoRef
     useEffect(() => {
         const videoTrack = videoTracks[0];
-        if (videoTrack) {
+        if (videoTrack && videoRef.current) {
             videoTrack.attach(videoRef.current);
             return () => {
                 videoTrack.detach();
@@ -66,7 +66,7 @@ const useTwilioParticipantServices = (participant: Participant) => {
     // Attach Audio Tracks to AudioRef
     useEffect(() => {
         const audioTrack = audioTracks[0];
-        if (audioTrack) {
+        if (audioTrack && audioRef.current) {
             audioTrack.attach(audioRef.current);
             return () => {
                 audioTrack.detach();
