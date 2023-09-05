@@ -43,7 +43,8 @@ const twilioVideoReducer = (
             return {
                 ...state,
                 remoteParticipants: [
-                    ...state.remoteParticipants.filter((participant) => participant.sid !== action.payload.remoteParticipant.sid),
+                    ...state.remoteParticipants
+                    .filter((participant) => participant.sid !== action.payload.remoteParticipant.sid || participant.identity !== action.payload.remoteParticipant.identity),
                     action.payload.remoteParticipant,
                 ],
             };
@@ -51,7 +52,8 @@ const twilioVideoReducer = (
             return {
                 ...state,
                 remoteParticipants: [
-                    ...state.remoteParticipants.filter((participant) => participant.sid !== action.payload.remoteParticipant.sid),
+                    ...state.remoteParticipants
+                    .filter((participant) => participant.sid !== action.payload.remoteParticipant.sid || participant.identity !== action.payload.remoteParticipant.identity ),
                 ],
             };
         case "LEAVE_ROOM":
